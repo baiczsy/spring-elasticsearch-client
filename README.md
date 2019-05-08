@@ -172,8 +172,7 @@ template.opsForQuery()
 ### 异步操作
 
 ```java
-public void searchAsync(String index, String param, String[] fields) {
-    template.opsForQuery()
+template.opsForQuery()
             .from(0)
             .size(10)
             .multiMatch(index, param, fields, new ActionListener<SearchResponse>() {
@@ -187,8 +186,7 @@ public void searchAsync(String index, String param, String[] fields) {
                 @Override
                 public void onFailure(Exception e) {
                 }
-            });
-}
+});
 ```
 
 说明：其他API参阅template类，并且所有API都支持同步和异步操作。
