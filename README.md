@@ -1,7 +1,7 @@
 # spring-elasticsearch-client
 基于ES的RestHighLevelClient与spring整合插件
 ## 使用说明
-clone项目并install到本地库(暂为发布到center仓库)。
+clone项目并install到本地库(暂未发布到center仓库)。
 
 ### 依赖
 
