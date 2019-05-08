@@ -12,8 +12,8 @@ clone项目并install到本地库(暂未发布到center仓库)。
     <version>5.1.6.RELEASE</version>
 </dependency>
 <dependency>
-    <groupId>org.elasticsearch.client</groupId>
-    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+    <groupId>com.github.baiczsy</groupId>
+    <artifactId>spring-elasticsearch-client</artifactId>
     <version>1.0.0</version>
 </dependency>
 ~~~
