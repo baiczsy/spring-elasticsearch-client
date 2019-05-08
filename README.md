@@ -33,7 +33,6 @@ public class RestClientConfigure {
 
     /**
      * 配置RestClient连接池，基于commons-pool2
-     * @return
      */
     @Bean
     public RestClientPoolConfig poolConfig(){
@@ -46,7 +45,6 @@ public class RestClientConfigure {
 
     /**
      * 装配RestClient配置类(单点)
-     * @return
      */
     @Bean
     public RestClientConfiguration restClientConfiguration(){
@@ -55,7 +53,6 @@ public class RestClientConfigure {
 
     /**
      * 装配RestClient配置类(集群)
-     * @return
      */
     /*@Bean
     public RestClientConfiguration clusterClientConfiguration(){
@@ -65,6 +62,9 @@ public class RestClientConfigure {
         return new RestClientClusterConfiguration(hosts);
     }*/
 
+    /**
+     * 装配ElasticsearchClientFactory
+     */
     @Bean
     public ElasticsearchClientFactory restHighLevelClientFactory(RestClientConfiguration configuration, RestClientPoolConfig poolConfig){
         //如果需要，可以设置默认的请求头信息
@@ -74,7 +74,10 @@ public class RestClientConfigure {
         //factory.setDefaultHeaders(headers);
         return factory;
     }
-
+    
+    /**
+     * 装配RestClientTemplate
+     */
     @Bean
     public RestClientTemplate restClientTemplate(ElasticsearchClientFactory factory){
         return new RestClientTemplate(factory);
