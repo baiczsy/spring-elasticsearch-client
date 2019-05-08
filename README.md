@@ -1,5 +1,12 @@
 # spring-elasticsearch-client
 基于ES的RestHighLevelClient与spring整合插件。如过需要检索中文，请在Elasticsearch中安装ik中文分词插件，注意对应版本。
+
+ik安装：
+
+~~~
+$ ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.0.0/elasticsearch-analysis-ik-7.0.0.zip
+~~~
+
 ## 教程
 clone项目并install到本地库(暂未发布到center仓库)。
 
