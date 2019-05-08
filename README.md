@@ -67,10 +67,10 @@ public class RestClientConfigure {
      */
     @Bean
     public ElasticsearchClientFactory restHighLevelClientFactory(RestClientConfiguration configuration, RestClientPoolConfig poolConfig){
+        ElasticsearchClientFactory factory = new ElasticsearchClientFactory(configuration, poolConfig);
         //如果需要，可以设置默认的请求头信息
         //Properties headers = new Properties();
         //headers.setProperty("key", "value");
-        ElasticsearchClientFactory factory = new ElasticsearchClientFactory(configuration, poolConfig);
         //factory.setDefaultHeaders(headers);
         return factory;
     }
