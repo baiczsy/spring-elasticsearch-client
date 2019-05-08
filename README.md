@@ -1,5 +1,5 @@
 # spring-elasticsearch-client
-基于ES的RestHighLevelClient与spring整合插件
+基于ES的RestHighLevelClient与spring整合插件。如过需要检索中文，请在Elasticsearch中安装ik中文分词插件，注意对应版本。
 ## 教程
 clone项目并install到本地库(暂未发布到center仓库)。
 
@@ -181,7 +181,7 @@ public void searchAsync(String index, String param, String[] fields) {
 }
 ```
 
-备注：其他API参阅template类，并且所有API都支持同步和异步操作。
+说明：其他API参阅template类，并且所有API都支持同步和异步操作。
 
 ### 使用execute方法操作RestHighLevelClient
 
