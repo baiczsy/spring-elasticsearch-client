@@ -145,12 +145,18 @@ template.delete(index, id);
 ```java
 //fields为需要检索的字段名(如：name，address)，param为查询条件
 public List<Map<String, Object>> search(String index, String param, String[] fields) {
-    return template.opsForQuery()
+    return template.opsForQuery().multiMatch(index, param, fields);
+}
+```
+
+### 分页
+
+~~~java
+template.opsForQuery()
             .from(0)
             .size(10)
             .multiMatch(index, param, fields);
-}
-```
+~~~
 
 ### 异步操作
 
