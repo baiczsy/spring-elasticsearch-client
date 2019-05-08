@@ -189,8 +189,6 @@ template.opsForQuery()
 });
 ```
 
-说明：其他API参阅template类，并且所有API都支持同步和异步操作。
-
 ### 使用execute方法操作RestHighLevelClient
 
 ```java
@@ -201,3 +199,4 @@ template.execute((highLevelClient) -> {
     highLevelClient.index(request, RequestOptions.DEFAULT);
 });
 ```
+说明：其他API参阅template类，并且所有API都支持同步和异步操作。
