@@ -194,8 +194,9 @@ template.opsForQuery()
 ### 使用execute方法操作RestHighLevelClient
 
 ```java
+//例如添加一条记录
 template.execute((highLevelClient) -> {
-    IndexRequest request = new IndexRequest(index).id(id).source(params);
+    IndexRequest request = new IndexRequest(index).id(id).source(map);
     request.timeout(TimeValue.timeValueNanos(timeout));
     highLevelClient.index(request, RequestOptions.DEFAULT);
 });
