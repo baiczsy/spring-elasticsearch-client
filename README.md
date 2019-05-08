@@ -145,6 +145,18 @@ String id = "1";
 template.persist(index, id, map);
 ```
 
+### 根据id查找数据
+
+~~~java
+Map<String, Object> map = template.get(index, id);
+~~~
+
+### 更新数据
+
+```java
+template.update(index, id, map);
+```
+
 ### 删除数据
 
 ```java
