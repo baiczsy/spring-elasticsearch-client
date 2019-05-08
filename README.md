@@ -136,7 +136,7 @@ public void deleteIndex(String index) {
 Map<String, Object> map = new HashMap<>();
 map.put("name", "zing");
 map.put("age", 26);
-map.put("address","地球村");
+map.put("address","global village");
 //索引名称
 String index = "users";
 //id
