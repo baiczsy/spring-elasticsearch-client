@@ -1,4 +1,4 @@
-package org.nf.elasticsearch.client.core;
+package com.github.elasticsearch.client.core;
 
 /**
  * @author wangl

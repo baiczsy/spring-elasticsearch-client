@@ -1,4 +1,4 @@
-package org.nf.elasticsearch.client.connection;
+package com.github.elasticsearch.client.connection;
 
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;

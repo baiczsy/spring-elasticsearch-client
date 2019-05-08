@@ -1,4 +1,4 @@
-package org.nf.elasticsearch.client.connection;
+package com.github.elasticsearch.client.connection;
 
 /**
  * @author wangl

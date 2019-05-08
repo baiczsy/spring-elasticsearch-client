@@ -1,12 +1,10 @@
-package org.nf.elasticsearch.client.core;
+package com.github.elasticsearch.client.core;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.indices.CreateIndexResponse;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package org.nf.elasticsearch.client.connection;
+package com.github.elasticsearch.client.connection;
 
 import org.apache.http.HttpHost;
-import org.nf.elasticsearch.client.core.ElasticsearchNode;
+import com.github.elasticsearch.client.core.ElasticsearchNode;
 
 import java.util.List;
 

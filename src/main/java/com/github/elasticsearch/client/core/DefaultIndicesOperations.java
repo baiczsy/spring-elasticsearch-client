@@ -1,4 +1,4 @@
-package org.nf.elasticsearch.client.core;
+package com.github.elasticsearch.client.core;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
