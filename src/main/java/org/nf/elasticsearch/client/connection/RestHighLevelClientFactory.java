@@ -1,0 +1,72 @@
+package org.nf.elasticsearch.client.connection;
+
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.PooledObjectFactory;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.http.Header;
+import org.apache.http.HttpHost;
+import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+/**
+ * @author wangl
+ * @date 2019-05-08
+ */
+public class RestHighLevelClientFactory implements PooledObjectFactory<RestHighLevelClient> {
+
+    private RestClientBuilder builder;
+
+    public RestHighLevelClientFactory(HttpHost[] httpHosts, Properties defaultHeaders) {
+        this.builder = RestClient.builder(httpHosts);
+        if(defaultHeaders != null){
+            builder.setDefaultHeaders(buildDefaultHeaders(defaultHeaders));
+        }
+    }
+
+    @Override
+    public PooledObject<RestHighLevelClient> makeObject() throws Exception {
+        return new DefaultPooledObject(new RestHighLevelClient(builder));
+    }
+
+    @Override
+    public void destroyObject(PooledObject<RestHighLevelClient> p) throws Exception {
+        p.getObject().close();
+    }
+
+    @Override
+    public boolean validateObject(PooledObject<RestHighLevelClient> p) {
+        RestHighLevelClient client = p.getObject();
+        try {
+            return client.ping(RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void activateObject(PooledObject<RestHighLevelClient> p) throws Exception {
+        // TODO: code to be written
+    }
+
+    @Override
+    public void passivateObject(PooledObject<RestHighLevelClient> p) throws Exception {
+        // TODO: code to be written
+    }
+
+    private Header[] buildDefaultHeaders(Properties defaultHeaders){
+        List<Header> headers = new ArrayList<>();
+        for (String propertyName : defaultHeaders.stringPropertyNames()) {
+            Header header = new BasicHeader(propertyName, defaultHeaders.getProperty(propertyName));
+            headers.add(header);
+        }
+        return headers.toArray(new Header[headers.size()]);
+    }
+}
