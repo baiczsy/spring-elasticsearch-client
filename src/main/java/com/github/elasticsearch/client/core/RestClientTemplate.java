@@ -153,10 +153,12 @@ public class RestClientTemplate extends RestClientAccessor implements RestClient
     }
 
     public QueryOperations opsForQuery(){
-        if(queryOperations != null){
+        if(queryOperations == null){
+            queryOperations = new DefaultQueryOperations(this, new SearchSourceBuilder());
+        } else {
             ((DefaultQueryOperations)queryOperations).setSearchSourceBuilder(new SearchSourceBuilder());
         }
-        return new DefaultQueryOperations(this, new SearchSourceBuilder());
+        return queryOperations;
     }
 
     public IndicesOperations opsForIndices(){
