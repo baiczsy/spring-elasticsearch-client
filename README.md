@@ -32,15 +32,15 @@ clone项目并install到本地库(暂未发布到center仓库)。
 public class RestClientConfigure {
 
     /**
-     * 配置RestClient连接池
+     * 配置RestClient连接池，基于commons-pool2
      * @return
      */
     @Bean
     public RestClientPoolConfig poolConfig(){
         RestClientPoolConfig poolConfig = new RestClientPoolConfig();
         poolConfig.setMinIdle(5);
-        poolConfig.setMaxTotal(20);
         poolConfig.setMaxWaitMillis(2000);
+        //other...
         return poolConfig;
     }
 
