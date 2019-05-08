@@ -181,3 +181,13 @@ public void searchAsync(String index, String param, String[] fields) {
 ```
 
 备注：其他API参阅template类，并且所有API都支持同步和异步操作。
+
+### 使用execute方法操作RestHighLevelClient
+
+```java
+template.execute((highLevelClient) -> {
+    IndexRequest request = new IndexRequest(index).id(id).source(params);
+    request.timeout(TimeValue.timeValueNanos(timeout));
+    highLevelClient.index(request, RequestOptions.DEFAULT);
+});
+```
