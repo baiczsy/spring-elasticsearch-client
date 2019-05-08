@@ -83,40 +83,67 @@ private RestClientTemplate template;
 
 ### 创建索引
 
-~~~java
-public void createIndex(String index, Map<String, Object> mapping) {
-    template.opsForIndices().create(index, mapping);
-}
-~~~
+```java
+//构建mapping
+Map<String, Object> name = new HashMap<>();
+name.put("type", "text");
+name.put("analyzer", "ik_max_word");
+
+Map<String, Object> age = new HashMap<>();
+age.put("type", "integer");
+
+Map<String, Object> address = new HashMap<>();
+address.put("type", "text");
+address.put("analyzer", "ik_max_word");
+
+Map<String, Object> properties = new HashMap<>();
+properties.put("name", name);
+properties.put("age", age);
+properties.put("address", address);
+
+Map<String, Object> mapping = new HashMap<>();
+mapping.put("properties", properties);
+
+//索引名称
+String index = "users";
+
+template.opsForIndices().create(index, mapping);
+```
 
 ### 删除索引
 
 ~~~java
 public void deleteIndex(String index) {
-    template.opsForIndices().delete("userinfo2");
+    template.opsForIndices().delete(index);
 }
 ~~~
 
 ### 添加数据
 
 ```java
-public void add(String index, String id, Map<String, Object> params) {
-    template.persist(index, id, params);
-}
+//用户数据
+Map<String, Object> map = new HashMap<>();
+map.put("name", "zing");
+map.put("age", 26);
+map.put("address","地球村");
+//索引名称
+String index = "users";
+//id
+String id = "1";
+
+template.persist(index, id, map);
 ```
 
 ### 删除数据
 
 ```java
-public void delete(String index, String id){
-    template.delete(index, id);
-}
+template.delete(index, id);
 ```
 
 ### 检索数据
 
 ```java
-
+//fields为需要检索的字段名(如：name，address)，param为查询条件
 public List<Map<String, Object>> search(String index, String param, String[] fields) {
     return template.opsForQuery()
             .from(0)
