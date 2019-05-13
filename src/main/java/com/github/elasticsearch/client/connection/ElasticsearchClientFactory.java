@@ -37,7 +37,7 @@ public class ElasticsearchClientFactory {
     }
 
     private void createPool(RestClientConfiguration configuration, RestClientPoolConfig poolConfig){
-        RestHighLevelClientFactory clientFactory = new RestHighLevelClientFactory(configuration.getHttpHosts(), defaultHeaders);
+        RestHighLevelClientFactory clientFactory = new RestHighLevelClientFactory(configuration, defaultHeaders);
         pool = new RestClientPool<>(poolConfig, clientFactory);
     }
 

@@ -6,7 +6,7 @@ import org.apache.http.HttpHost;
  * @author wangl
  * @date 2019-04-30
  */
-public class RestClientStandaloneConfiguration implements RestClientConfiguration{
+public class RestClientStandaloneConfiguration extends RestClientConfiguration{
 
     private String host;
     private Integer port;

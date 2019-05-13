@@ -9,7 +9,7 @@ import java.util.List;
  * @author wangl
  * @date 2019-04-30
  */
-public class RestClientClusterConfiguration implements RestClientConfiguration{
+public class RestClientClusterConfiguration extends RestClientConfiguration{
 
     private List<ElasticsearchNode> clusterNodes;
 

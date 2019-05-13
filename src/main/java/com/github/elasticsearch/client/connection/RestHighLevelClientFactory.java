@@ -5,6 +5,8 @@ import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
@@ -23,9 +25,13 @@ import java.util.Map;
 public class RestHighLevelClientFactory implements PooledObjectFactory<RestHighLevelClient> {
 
     private RestClientBuilder builder;
+    private RestClientConfiguration configuration;
 
-    public RestHighLevelClientFactory(HttpHost[] httpHosts, Map<String, String> defaultHeaders) {
-        this.builder = RestClient.builder(httpHosts);
+    public RestHighLevelClientFactory(RestClientConfiguration configuration, Map<String, String> defaultHeaders) {
+        this.configuration = configuration;
+        this.builder = RestClient.builder(configuration.getHttpHosts());
+        customizeRequestConfig();
+        customizeHttpClient();
         if(defaultHeaders != null){
             builder.setDefaultHeaders(buildDefaultHeaders(defaultHeaders));
         }
@@ -68,5 +74,22 @@ public class RestHighLevelClientFactory implements PooledObjectFactory<RestHighL
             headers.add(header);
         }
         return headers.toArray(new Header[headers.size()]);
+    }
+
+    private void customizeRequestConfig(){
+        builder.setRequestConfigCallback(requestConfigBuilder -> {
+            requestConfigBuilder.setConnectTimeout(configuration.getConnectTimeout());
+            requestConfigBuilder.setConnectionRequestTimeout(configuration.getConnectionRequestTimeout());
+            requestConfigBuilder.setSocketTimeout(configuration.getSocketTimeout());
+            return requestConfigBuilder;
+        });
+    }
+
+    private void customizeHttpClient(){
+        builder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
+            httpAsyncClientBuilder.setMaxConnTotal(configuration.getMaxConnTotal());
+            httpAsyncClientBuilder.setMaxConnPerRoute(configuration.getMaxConnPerRoute());
+            return httpAsyncClientBuilder;
+        });
     }
 }
