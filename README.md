@@ -1,5 +1,5 @@
 # spring-elasticsearch-client
-基于ES的RestHighLevelClient与spring整合插件。
+基于ES的elasticsearch-rest-high-level-client 7.0.0与spring整合客户端。
 如需使用中文检索，请在Elasticsearch中安装ik中文分词插件，注意对应版本。
 ik安装：
 
