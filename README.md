@@ -43,12 +43,15 @@ public class RestClientConfigure {
         return poolConfig;
     }
 
-    /**
-     * 装配RestClient配置类(单点)
-     */
     @Bean
     public RestClientConfiguration restClientConfiguration(){
-        return new RestClientStandaloneConfiguration("localhost",9200);
+        RestClientStandaloneConfiguration configuration = new RestClientStandaloneConfiguration("localhost",9200);
+        configuration.setConnectTimeout(1000);
+        configuration.setConnectionRequestTimeout(500);
+        configuration.setSocketTimeout(20000);
+        configuration.setMaxConnTotal(100);
+        configuration.setMaxConnPerRoute(100);
+        return configuration;
     }
 
     /**
@@ -59,7 +62,13 @@ public class RestClientConfigure {
         List<ElasticsearchNode> hosts = new ArrayList<>();
         hosts.add(new ElasticsearchNode("localhost", 9200));
         hosts.add(new ElasticsearchNode("localhost", 9201));
-        return new RestClientClusterConfiguration(hosts);
+        RestClientClusterConfiguration configuration = new RestClientClusterConfiguration(hosts);
+        configuration.setConnectTimeout(1000);
+        configuration.setConnectionRequestTimeout(500);
+        configuration.setSocketTimeout(20000);
+        configuration.setMaxConnTotal(100);
+        configuration.setMaxConnPerRoute(100);
+        return configuration;
     }*/
 
     /**
