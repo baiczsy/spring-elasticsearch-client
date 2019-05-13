@@ -14,7 +14,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * @author wangl
@@ -24,7 +24,7 @@ public class RestHighLevelClientFactory implements PooledObjectFactory<RestHighL
 
     private RestClientBuilder builder;
 
-    public RestHighLevelClientFactory(HttpHost[] httpHosts, Properties defaultHeaders) {
+    public RestHighLevelClientFactory(HttpHost[] httpHosts, Map<String, String> defaultHeaders) {
         this.builder = RestClient.builder(httpHosts);
         if(defaultHeaders != null){
             builder.setDefaultHeaders(buildDefaultHeaders(defaultHeaders));
@@ -61,10 +61,10 @@ public class RestHighLevelClientFactory implements PooledObjectFactory<RestHighL
         // TODO: code to be written
     }
 
-    private Header[] buildDefaultHeaders(Properties defaultHeaders){
+    private Header[] buildDefaultHeaders(Map<String, String> defaultHeaders){
         List<Header> headers = new ArrayList<>();
-        for (String propertyName : defaultHeaders.stringPropertyNames()) {
-            Header header = new BasicHeader(propertyName, defaultHeaders.getProperty(propertyName));
+        for(String key : defaultHeaders.keySet()){
+            Header header = new BasicHeader(key, defaultHeaders.get(key));
             headers.add(header);
         }
         return headers.toArray(new Header[headers.size()]);

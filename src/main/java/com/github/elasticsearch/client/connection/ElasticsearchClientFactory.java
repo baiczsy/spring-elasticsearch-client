@@ -2,6 +2,7 @@ package com.github.elasticsearch.client.connection;
 
 import org.elasticsearch.client.RestHighLevelClient;
 
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -11,13 +12,13 @@ import java.util.Properties;
 public class ElasticsearchClientFactory {
 
     private RestClientPool<RestHighLevelClient> pool;
-    private Properties defaultHeaders;
+    private Map<String, String> defaultHeaders;
 
     public ElasticsearchClientFactory(RestClientConfiguration configuration, RestClientPoolConfig poolConfig) {
         createPool(configuration, poolConfig);
     }
 
-    public void setDefaultHeaders(Properties defaultHeaders) {
+    public void setDefaultHeaders(Map<String, String> defaultHeaders) {
         this.defaultHeaders = defaultHeaders;
     }
 
