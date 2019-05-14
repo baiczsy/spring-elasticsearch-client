@@ -7,7 +7,7 @@ ik安装：
 $ ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.0.0/elasticsearch-analysis-ik-7.0.0.zip
 ~~~
 
-## 教程
+## 使用说明
 clone项目并install到本地库(暂未发布到center仓库)。
 
 ### 依赖
