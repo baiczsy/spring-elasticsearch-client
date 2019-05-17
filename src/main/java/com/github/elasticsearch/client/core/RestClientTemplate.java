@@ -21,7 +21,7 @@ import java.util.Map;
  * @author wangl
  * @date 2019-04-30
  */
-public class RestClientTemplate extends RestClientAccessor implements RestClientOperations {
+public class RestClientTemplate extends RestClientAccessor implements DocumentOperations {
 
 
     private QueryOperations queryOperations;
@@ -58,96 +58,58 @@ public class RestClientTemplate extends RestClientAccessor implements RestClient
     }
 
     @Override
-    public IndexResponse persist(String index, String id, Map<String, Object> params) {
-        return persist(index, id, params, 0);
-    }
-
-    @Override
-    public IndexResponse persist(String index, String id, Map<String, Object> params, long timeout) {
+    public IndexResponse persist(IndexRequest request) {
         return execute((highLevelClient) -> {
-            IndexRequest request = getIndexRequest(index, id, params, timeout);
             return highLevelClient.index(request, RequestOptions.DEFAULT);
         });
     }
 
     @Override
-    public void persist(String index, String id, Map<String, Object> params, ActionListener<IndexResponse> listener) {
-        persist(index, id, params, listener, 0);
-    }
-
-    @Override
-    public void persist(String index, String id, Map<String, Object> params, ActionListener<IndexResponse> listener, long timeout) {
+    public void persist(IndexRequest request, ActionListener<IndexResponse> listener) {
         execute((highLevelClient) -> {
-            IndexRequest request = getIndexRequest(index, id, params, timeout);
             highLevelClient.indexAsync(request, RequestOptions.DEFAULT, listener);
         });
     }
 
     @Override
-    public UpdateResponse update(String index, String id, Map<String, Object> params) {
-        return update(index, id, params, 0);
-    }
-
-    @Override
-    public UpdateResponse update(String index, String id, Map<String, Object> params, long timeout) {
+    public UpdateResponse update(UpdateRequest request) {
         return execute((highLevelClient) -> {
-            UpdateRequest request = getUpdateRequest(index, id, params, timeout);
             return highLevelClient.update(request, RequestOptions.DEFAULT);
         });
     }
 
     @Override
-    public void update(String index, String id, Map<String, Object> params, ActionListener<UpdateResponse> listener) {
-        update(index, id, params, listener, 0);
-    }
-
-    @Override
-    public void update(String index, String id, Map<String, Object> params, ActionListener<UpdateResponse> listener, long timeout) {
+    public void update(UpdateRequest request, ActionListener<UpdateResponse> listener) {
         execute((highLevelClient) -> {
-            UpdateRequest request = getUpdateRequest(index, id, params, timeout);
             highLevelClient.updateAsync(request, RequestOptions.DEFAULT, listener);
         });
     }
 
     @Override
-    public DeleteResponse delete(String index, String id) {
-        return delete(index, id, 0);
-    }
-
-    @Override
-    public DeleteResponse delete(String index, String id, long timeout) {
+    public DeleteResponse delete(DeleteRequest request) {
         return execute((highLevelClient) -> {
-            DeleteRequest request = getDeleteRequest(index, id, timeout);
             return highLevelClient.delete(request, RequestOptions.DEFAULT);
         });
     }
 
     @Override
-    public void delete(String index, String id, ActionListener<DeleteResponse> listener) {
-        delete(index, id, listener, 0);
-    }
-
-    @Override
-    public void delete(String index, String id, ActionListener<DeleteResponse> listener, long timeout) {
+    public void delete(DeleteRequest request, ActionListener<DeleteResponse> listener) {
         execute((highLevelClient) -> {
-            DeleteRequest request = getDeleteRequest(index, id, timeout);
             highLevelClient.deleteAsync(request, RequestOptions.DEFAULT, listener);
         });
     }
 
     @Override
-    public Map<String, Object> get(String index, String id) {
+    public Map<String, Object> get(GetRequest request) {
         return execute((highLevelClient) -> {
-            GetRequest request = getGetRequest(index, id);
             GetResponse response = highLevelClient.get(request, RequestOptions.DEFAULT);
             return response.getSourceAsMap();
         });
     }
 
     @Override
-    public void get(String index, String id, ActionListener<GetResponse> listener) {
+    public void get(GetRequest request, ActionListener<GetResponse> listener) {
         execute((highLevelClient) -> {
-            GetRequest request = getGetRequest(index, id);
             highLevelClient.getAsync(request, RequestOptions.DEFAULT, listener);
         });
     }

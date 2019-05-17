@@ -125,18 +125,16 @@ properties.put("address", address);
 Map<String, Object> mapping = new HashMap<>();
 mapping.put("properties", properties);
 
-//索引名称
-String index = "users";
-
-template.opsForIndices().create(index, mapping);
+//users为index名称
+CreateIndexRequest request = new CreateIndexRequest("users").mapping(mapping);
+template.opsForIndices().create(request);
 ```
 
 ### 删除索引
 
 ~~~java
-public void deleteIndex(String index) {
-    template.opsForIndices().delete(index);
-}
+DeleteIndexRequest request = new DeleteIndexRequest("users");
+template.opsForIndices().delete(request);
 ~~~
 
 ### 添加数据
@@ -147,29 +145,34 @@ Map<String, Object> map = new HashMap<>();
 map.put("name", "zing");
 map.put("age", 26);
 map.put("address","global village");
-//索引名称
-String index = "users";
-//id
-String id = "1";
 
-template.persist(index, id, map);
+IndexRequest request = new IndexRequest("users").id("1").source(map);
+template.persist(request);
 ```
 
 ### 根据id查找数据
 
 ~~~java
-Map<String, Object> map = template.get(index, id);
+GetRequest request = new GetRequest("users").id("1");
+Map<String, Object> map = template.get(request);
 ~~~
 
 ### 更新数据
 
 ```java
+//用户数据
+Map<String, Object> map = new HashMap<>();
+map.put("name", "bobo");
+map.put("age", 28);
+
+UpdateRequest request = new UpdateRequest("users", "1").doc(map);
 template.update(index, id, map);
 ```
 
 ### 删除数据
 
 ```java
+DeleteRequest request = new DeleteRequest("users").id("1");
 template.delete(index, id);
 ```
 

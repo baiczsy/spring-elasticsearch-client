@@ -22,53 +22,29 @@ class DefaultIndicesOperations implements IndicesOperations{
     }
 
     @Override
-    public CreateIndexResponse create(String index, Map<String, Object> mapping) {
-        return create(index, mapping, 0);
-    }
-
-    @Override
-    public CreateIndexResponse create(String index, Map<String, Object> mapping, long timeout) {
+    public CreateIndexResponse create(CreateIndexRequest request) {
         return template.execute((highLevelClient) -> {
-            CreateIndexRequest request = template.getCreateIndexRequest(index, mapping, timeout);
             return highLevelClient.indices().create(request, RequestOptions.DEFAULT);
         });
     }
 
     @Override
-    public void create(String index, Map<String, Object> mapping, ActionListener<CreateIndexResponse> listener) {
-        create(index, mapping, listener, 0);
-    }
-
-    @Override
-    public void create(String index, Map<String, Object> mapping, ActionListener<CreateIndexResponse> listener, long timeout) {
+    public void create(CreateIndexRequest request, ActionListener<CreateIndexResponse> listener) {
         template.execute((highLevelClient) -> {
-            CreateIndexRequest request = template.getCreateIndexRequest(index, mapping, timeout);
             highLevelClient.indices().createAsync(request, RequestOptions.DEFAULT, listener);
         });
     }
 
     @Override
-    public AcknowledgedResponse delete(String index) {
-        return delete(index, 0);
-    }
-
-    @Override
-    public AcknowledgedResponse delete(String index, long timeout) {
+    public AcknowledgedResponse delete(DeleteIndexRequest request) {
         return template.execute((highLevelClient) -> {
-            DeleteIndexRequest request = template.getDeleteIndexRequest(index, timeout);
             return highLevelClient.indices().delete(request, RequestOptions.DEFAULT);
         });
     }
 
     @Override
-    public void delete(String index, ActionListener<AcknowledgedResponse> listener) {
-        delete(index,listener, 0);
-    }
-
-    @Override
-    public void delete(String index, ActionListener<AcknowledgedResponse> listener, long timeout) {
+    public void delete(DeleteIndexRequest request, ActionListener<AcknowledgedResponse> listener) {
         template.execute((highLevelClient) -> {
-            DeleteIndexRequest request = template.getDeleteIndexRequest(index, timeout);
             highLevelClient.indices().deleteAsync(request, RequestOptions.DEFAULT, listener);
         });
     }
