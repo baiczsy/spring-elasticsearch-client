@@ -105,7 +105,7 @@ public class RestClientConfigure {
 private RestClientTemplate template;
 ~~~
 
-### 创建索引
+### 创建索引及doc映射
 
 ```java
 //构建mapping
@@ -169,14 +169,14 @@ map.put("name", "bobo");
 map.put("age", 28);
 
 UpdateRequest request = new UpdateRequest("users", "1").doc(map);
-template.update(index, id, map);
+template.update(request);
 ```
 
 ### 删除数据
 
 ```java
 DeleteRequest request = new DeleteRequest("users").id("1");
-template.delete(index, id);
+template.delete(request);
 ```
 
 ### 检索数据
