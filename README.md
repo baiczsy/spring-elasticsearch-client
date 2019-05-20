@@ -43,7 +43,10 @@ public class RestClientConfigure {
         //other...
         return poolConfig;
     }
-
+    
+    /**
+     * 装配RestClient配置类(单机)
+     */
     @Bean
     public RestClientConfiguration restClientConfiguration(){
         RestClientStandaloneConfiguration configuration = new RestClientStandaloneConfiguration("localhost",9200);
