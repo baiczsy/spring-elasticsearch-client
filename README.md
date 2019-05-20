@@ -230,6 +230,6 @@ template.execute((highLevelClient) -> {
 ```
 说明：其他API参阅RestClienTemplate类，且所有API都支持同步和异步操作。
 
-## Spring boot starter
+## 整合Spring boot
 https://github.com/baiczsy/elasticsearch-client-spring-boot-starter
 
