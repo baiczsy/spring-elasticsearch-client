@@ -39,6 +39,7 @@ public class RestClientConfigure {
     public RestClientPoolConfig poolConfig(){
         RestClientPoolConfig poolConfig = new RestClientPoolConfig();
         poolConfig.setMinIdle(5);
+        poolConfig.setMaxTotal(20);
         poolConfig.setMaxWaitMillis(2000);
         //other...
         return poolConfig;
