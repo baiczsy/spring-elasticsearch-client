@@ -209,7 +209,7 @@ public List<Map<String, Object>> search(String index, String param, String...fie
 ~~~ java
 public List<Map<String, Object>> search(String index, String param, String...fields) {
   MultiMatchQueryBuilder queryBuilder = new MultiMatchQueryBuilder(param, fields); 
-  HighlightBuilder highlightBuilder = 			HighlightUtils.createHighlightBuilder(HighlightType.UNIFIED, fields);
+  HighlightBuilder highlightBuilder = HighlightUtils.createHighlightBuilder(HighlightType.UNIFIED, fields);
   return template.opsForQuery()
             .highlight(highlightBuilder)
             .multiMatch(index, queryBuilder);
