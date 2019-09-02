@@ -22,7 +22,7 @@ $ ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-anal
 <dependency>
     <groupId>com.github.baiczsy</groupId>
     <artifactId>spring-elasticsearch-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ~~~
 
@@ -141,7 +141,7 @@ DeleteIndexRequest request = new DeleteIndexRequest("users");
 template.opsForIndices().delete(request);
 ~~~
 
-### 添加数据
+### 创建文档
 
 ```java
 //用户数据
@@ -154,14 +154,14 @@ IndexRequest request = new IndexRequest("users").id("1").source(map);
 template.persist(request);
 ```
 
-### 根据id查找数据
+### 根据id查找文档
 
 ~~~java
 GetRequest request = new GetRequest("users").id("1");
 Map<String, Object> map = template.get(request);
 ~~~
 
-### 更新数据
+### 更新文档
 
 ```java
 //用户数据
@@ -180,31 +180,49 @@ DeleteRequest request = new DeleteRequest("users").id("1");
 template.delete(request);
 ```
 
-### 检索数据
+### 数据检索
+
+检索使用ES官方提供的多种QueryBuilder，下面以MultiMatchQueryBuilder为例。
 
 ```java
 //fields为需要检索的字段名(如：name，address)，param为查询条件
-public List<Map<String, Object>> search(String index, String param, String[] fields) {
-    return template.opsForQuery().multiMatch(index, param, fields);
+public List<Map<String, Object>> search(String index, String param, String...fields) {
+  MultiMatchQueryBuilder queryBuilder = new MultiMatchQueryBuilder(param, fields); 
+  return template.opsForQuery().multiMatch(index, queryBuilder);
 }
 ```
 
 ### 分页检索
 
 ~~~java
-template.opsForQuery()
+public List<Map<String, Object>> search(String index, String param, String...fields) {
+  MultiMatchQueryBuilder queryBuilder = new MultiMatchQueryBuilder(param, fields); 
+  return template.opsForQuery()
             .from(0)
             .size(10)
-            .multiMatch(index, param, fields);
+            .multiMatch(index, queryBuilder);
+}
+~~~
+
+### 高亮显示
+
+~~~ java
+public List<Map<String, Object>> search(String index, String param, String...fields) {
+  MultiMatchQueryBuilder queryBuilder = new MultiMatchQueryBuilder(param, fields); 
+  HighlightBuilder highlightBuilder = 			HighlightUtils.createHighlightBuilder(HighlightType.UNIFIED, fields);
+  return template.opsForQuery()
+            .highlight(highlightBuilder)
+            .multiMatch(index, queryBuilder);
+}
 ~~~
 
 ### 异步操作
 
 ```java
-template.opsForQuery()
-            .from(0)
-            .size(10)
-            .multiMatch(index, param, fields, new ActionListener<SearchResponse>() {
+public List<Map<String, Object>> search(String index, String param, String...fields) {
+  MultiMatchQueryBuilder queryBuilder = new MultiMatchQueryBuilder(param, fields); 
+  template.opsForQuery()
+            .multiMatch(index, queryBuilder, new ActionListener<SearchResponse>() {
                 @Override
                 public void onResponse(SearchResponse searchResponse) {
                     for (SearchHit hit : searchResponse.getHits().getHits()) {
@@ -215,7 +233,10 @@ template.opsForQuery()
                 @Override
                 public void onFailure(Exception e) {
                 }
-});
+						});
+}
+
+
 ```
 
 ### 使用execute方法操作RestHighLevelClient
