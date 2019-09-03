@@ -106,7 +106,7 @@ public class RestClientConfigure {
 private RestClientTemplate template;
 ~~~
 
-### 创建索引及doc映射
+### 创建index以及及Mapping
 
 ```java
 //构建mapping
@@ -233,7 +233,7 @@ public List<Map<String, Object>> search(String index, String param, String...fie
                 @Override
                 public void onFailure(Exception e) {
                 }
-						});
+	     });
 }
 
 
