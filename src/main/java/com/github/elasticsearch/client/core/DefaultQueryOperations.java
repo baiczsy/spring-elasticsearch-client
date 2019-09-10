@@ -46,7 +46,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void match(String index, MatchQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -56,7 +56,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void matchAll(String index, MatchAllQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -66,7 +66,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void multiMatch(String index, MultiMatchQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -76,7 +76,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void term(String index, TermQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -86,7 +86,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void terms(String index, TermsQueryBuilder queryBuilder, ActionListener<SearchResponse> listener, Object... param) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -96,7 +96,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void range(String index, RangeQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     @Override
@@ -106,7 +106,7 @@ class DefaultQueryOperations implements QueryOperations {
 
     @Override
     public void bool(String index, BoolQueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
-        asyncExecute(index, queryBuilder, listener);
+        execute(index, queryBuilder, listener);
     }
 
     private List<Map<String, Object>> execute(String index, QueryBuilder queryBuilder) {
@@ -116,7 +116,7 @@ class DefaultQueryOperations implements QueryOperations {
         });
     }
 
-    private void asyncExecute(String index, QueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
+    private void execute(String index, QueryBuilder queryBuilder, ActionListener<SearchResponse> listener) {
         template.execute((highLevelClient) -> {
             builder.query(queryBuilder);
             executeAsyncQuery(index, highLevelClient, listener);
