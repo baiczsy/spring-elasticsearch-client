@@ -37,9 +37,10 @@ public class RestClientTemplate extends RestClientAccessor implements DocumentOp
     @Override
     public <T> T execute(RestClientCallback<T> callback) {
         try {
-            RestHighLevelClient client = getRestClientFactory().getResource();
+            ElasticsearchClientFactory clientFactory = getRestClientFactory();
+            RestHighLevelClient client = clientFactory.getResource();
             T t = callback.doInRestClient(client);
-            getRestClientFactory().returnResource(client);
+            clientFactory.returnResource(client);
             return t;
         } catch (IOException e) {
             throw new ElasticsearchAccessException(e);
