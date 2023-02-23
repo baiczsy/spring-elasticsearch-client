@@ -18,10 +18,6 @@ import java.util.Map;
  */
 public interface DocumentOperations {
 
-    <T> T execute(RestClientCallback<T> callback);
-
-    void execute(RestClientAsyncCallback callback);
-
     IndexResponse persist(IndexRequest request);
 
     void persist(IndexRequest request, ActionListener<IndexResponse> listener);

@@ -21,20 +21,17 @@ import java.util.Map;
  * @author wangl
  * @date 2019-04-30
  */
-public class RestClientTemplate extends RestClientAccessor implements DocumentOperations {
+public class RestClientTemplate extends RestClientAccessor {
 
 
     private QueryOperations queryOperations;
     private IndicesOperations indicesOperations;
-
-    public RestClientTemplate() {
-    }
+    private DocumentOperations documentOperations;
 
     public RestClientTemplate(ElasticsearchClientFactory restClientFactory) {
         setConnectionFactory(restClientFactory);
     }
 
-    @Override
     public <T> T execute(RestClientCallback<T> callback) {
         try {
             ElasticsearchClientFactory clientFactory = getRestClientFactory();
@@ -47,7 +44,6 @@ public class RestClientTemplate extends RestClientAccessor implements DocumentOp
         }
     }
 
-    @Override
     public void execute(RestClientAsyncCallback callback) {
         try {
             RestHighLevelClient client = getRestClientFactory().getResource();
@@ -56,63 +52,6 @@ public class RestClientTemplate extends RestClientAccessor implements DocumentOp
         } catch (IOException e) {
             throw new ElasticsearchAccessException(e);
         }
-    }
-
-    @Override
-    public IndexResponse persist(IndexRequest request) {
-        return execute((highLevelClient) -> {
-            return highLevelClient.index(request, RequestOptions.DEFAULT);
-        });
-    }
-
-    @Override
-    public void persist(IndexRequest request, ActionListener<IndexResponse> listener) {
-        execute((highLevelClient) -> {
-            highLevelClient.indexAsync(request, RequestOptions.DEFAULT, listener);
-        });
-    }
-
-    @Override
-    public UpdateResponse update(UpdateRequest request) {
-        return execute((highLevelClient) -> {
-            return highLevelClient.update(request, RequestOptions.DEFAULT);
-        });
-    }
-
-    @Override
-    public void update(UpdateRequest request, ActionListener<UpdateResponse> listener) {
-        execute((highLevelClient) -> {
-            highLevelClient.updateAsync(request, RequestOptions.DEFAULT, listener);
-        });
-    }
-
-    @Override
-    public DeleteResponse delete(DeleteRequest request) {
-        return execute((highLevelClient) -> {
-            return highLevelClient.delete(request, RequestOptions.DEFAULT);
-        });
-    }
-
-    @Override
-    public void delete(DeleteRequest request, ActionListener<DeleteResponse> listener) {
-        execute((highLevelClient) -> {
-            highLevelClient.deleteAsync(request, RequestOptions.DEFAULT, listener);
-        });
-    }
-
-    @Override
-    public Map<String, Object> get(GetRequest request) {
-        return execute((highLevelClient) -> {
-            GetResponse response = highLevelClient.get(request, RequestOptions.DEFAULT);
-            return response.getSourceAsMap();
-        });
-    }
-
-    @Override
-    public void get(GetRequest request, ActionListener<GetResponse> listener) {
-        execute((highLevelClient) -> {
-            highLevelClient.getAsync(request, RequestOptions.DEFAULT, listener);
-        });
     }
 
     public QueryOperations opsForQuery(){
@@ -129,6 +68,13 @@ public class RestClientTemplate extends RestClientAccessor implements DocumentOp
             indicesOperations = new DefaultIndicesOperations(this);
         }
         return indicesOperations;
+    }
+
+    public DocumentOperations opsForDocument(){
+        if(documentOperations == null){
+            documentOperations = new DefaultDocumentOperations(this);
+        }
+        return documentOperations;
     }
 
 }
