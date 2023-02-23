@@ -33,6 +33,7 @@ public class RestClientPool<T> implements Closeable {
             try {
                 closeInternalPool();
             } catch (Exception e) {
+                throw new RuntimeException("Init pool fail.", e);
             }
         }
         internalPool = new GenericObjectPool<T>(factory, poolConfig);
